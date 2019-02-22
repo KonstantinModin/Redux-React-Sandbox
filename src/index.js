@@ -1,28 +1,27 @@
-import { createStore } from 'redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore, bindActionCreators } from 'redux';
+import Counter from './counter';
 
-const reducer = (state = 0, action) => {
-
-    switch (action.type) {
-        case 'INC':
-            return state + 1;
-        case 'DEC':
-            return state - 1;
-        case 'MULT':
-            return state * state;
-        case 'DIV':
-            return state / Math.floor(Math.random()*10);
-
-            default:
-            return state;
-    }    
-};
+import reducer from './reducer';
+import * as actions from './actions';
 
 const store = createStore(reducer);
-const counter = document.querySelector('#counter');
+const { dispatch } = store;
 
-store.subscribe(() => counter.innerHTML = store.getState());
+const { dec, inc, mult, div } = bindActionCreators(actions, dispatch);
 
-document.querySelector('#dec').addEventListener('click', () => store.dispatch({type: 'DEC'}));
-document.querySelector('#inc').addEventListener('click', () => store.dispatch({type: 'INC'}));
-document.querySelector('#mult').addEventListener('click', () => store.dispatch({type: 'MULT'}));
-document.querySelector('#div').addEventListener('click', () => store.dispatch({type: 'DIV'}));
+const update = () => {
+    ReactDOM.render(
+        <Counter counter={store.getState()}
+        inc={inc}
+        dec={dec}
+        mult={mult}
+        div={() => {
+            const value = Math.floor(Math.random()*10+2);
+            div(value)}} />, 
+        document.querySelector('#root'));
+};
+update();
+store.subscribe(update);
+
