@@ -1,0 +1,29 @@
+import React from 'react';
+import './counter.css';
+
+const Counter = ({ counter, inc, dec, mult, div }) => {
+    return (
+        <div className="jumbotron">
+            <h1>Redux Sandbox</h1>
+            <h2>{ counter }</h2>
+            <h3>0</h3>
+            <button 
+                onClick={dec}
+                className="btn btn-primary btn-lg">DEC</button>
+            <button 
+                onClick={inc}
+                className="btn btn-primary btn-lg">INC</button>
+            <button 
+                onClick={mult}
+                className="btn btn-primary btn-lg">MULT</button>
+            <button 
+                onClick={div}
+                className="btn btn-primary btn-lg">DIV</button>
+        </div>
+    );
+};
+export default Counter;
+
+
+
+
